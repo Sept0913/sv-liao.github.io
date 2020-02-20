@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://sv-liao.github.io</id>
+    <title>Gridea</title>
+    <updated>2020-02-20T06:32:31.237Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://sv-liao.github.io"/>
+    <link rel="self" href="https://sv-liao.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://sv-liao.github.io/images/avatar.png</logo>
+    <icon>https://sv-liao.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[P6101【EE Round 2】出言不逊-题解]]></title>
+        <id>https://sv-liao.github.io/post/solution-p6101/</id>
+        <link href="https://sv-liao.github.io/post/solution-p6101/">
+        </link>
+        <updated>2020-02-19T09:33:51.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>本文同步发布于<a href="https://blog.csdn.net/fsupervisor/article/details/104359866">CSDN</a></p>
+</blockquote>
+<h2 id="1-分析题面">1 分析题面</h2>
+<blockquote>
+<p>珂愛想要知道，她<strong>至少</strong>需要操作多少次，才能让这个字符串的长度<strong>大于等于</strong><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span></span></span></span>。</p>
+</blockquote>
+<p>即每次操作都要选择出现次数最多的字符进行操作。</p>
+<h3 id="11-坑点">1.1 坑点</h3>
+<p>下面给出一组数据：</p>
+<p><strong>输入:</strong></p>
+<pre><code class="language-plain">llasw
+4
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code class="language-plain">0
+</code></pre>
+<p>这就是坑：<strong>当 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><mi>S</mi><mi mathvariant="normal">∣</mi><mo>≥</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">|S|\ge L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span></span></span></span> 时，操作次数为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>。</strong></p>
+<p>开始我没考虑，于是乎：<a href="https://www.luogu.com.cn/record/30627759">15pts</a>。</p>
+<h3 id="12-数据范围">1.2 数据范围</h3>
+<blockquote>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>≤</mo><mi>L</mi><mo>&lt;</mo><msup><mn>2</mn><mn>64</mn></msup></mrow><annotation encoding="application/x-tex">1\le L&lt;2^{64}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></p>
+</blockquote>
+<p>而 <code>unsigned long long</code> 的数据范围刚好是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>0</mn><mo separator="true">,</mo><msup><mn>2</mn><mn>64</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">[0,2^{64})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>！！！</p>
+<h2 id="2-过程">2 过程</h2>
+<p>首先需要统计<strong>每个字符出现的次数</strong>，使用 C++ 中 STL 里的 map 容器可以很便捷地做到。</p>
+<h3 id="21-map容器的使用">2.1 map容器的使用</h3>
+<p><code>map</code>: 映射表</p>
+<p><code>#include &lt;map&gt;</code>:<code>map</code>头文件。</p>
+<p><code>map &lt;A,B&gt; ds</code>:建立一个叫<code>ds</code>的，下标类型为<code>A</code>，元素类型为<code>B</code>的映射表。</p>
+<p><code>map[A]</code>:访问下标为<code>A</code>的元素。</p>
+<h3 id="22-打擂台比较">2.2 &quot;打擂台&quot;比较</h3>
+<p>然后需要比较出出现次数最多字符出现的次数（以下简称 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">maxn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span></span></span></span>）。</p>
+<p>利用&quot;打擂台&quot;的方式，挨个比较，最后统计出 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">maxn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span></span></span></span> 的值。</p>
+<h3 id="23-模拟操作">2.3 模拟操作</h3>
+<p>以 <code>good 11</code> 这组输入为例，全过程：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>  </mtext><mtext>  </mtext><mtext>  </mtext><mi>g</mi><mi>o</mi><mi>o</mi><mi>d</mi><mtext>  </mtext><mo>−</mo><mo>&gt;</mo><mi>g</mi><mi>o</mi><mi>o</mi><mi>d</mi><mi>o</mi><mi>o</mi><mtext>  </mtext><mo>−</mo><mo>&gt;</mo><mi>g</mi><mi>o</mi><mi>o</mi><mi>d</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mtext>  </mtext><mo>−</mo><mo>&gt;</mo><mi>g</mi><mi>o</mi><mi>o</mi><mi>d</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mi>o</mi><mo>(</mo><mi>L</mi><mo>&gt;</mo><mn>11</mn><mo separator="true">,</mo><mi>f</mi><mi>i</mi><mi>n</mi><mi>i</mi><mi>s</mi><mi>h</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\;\;\;good\;-&gt;goodoo\;-&gt;goodoooooo\;-&gt;goodoooooooooooooo(L&gt;11,finish)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mopen">(</span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi><mo>=</mo><mn>2</mn><mtext>  </mtext><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi><mo>=</mo><mn>4</mn><mtext>  </mtext><mtext>  </mtext><mtext>  </mtext><mtext>  </mtext><mtext>  </mtext><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">maxn=2\;maxn=4\;\;\;\;\;maxn=8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span></p>
+<p>可以看出，每次操作后，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi><mo>×</mo><mn>2</mn><mo separator="true">,</mo><mi mathvariant="normal">∣</mi><mi>S</mi><mi mathvariant="normal">∣</mi><mo>+</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">maxn=maxn\times 2,|S|+=maxn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">∣</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span></span></span></span>。</p>
+<p>即：当 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><mi>S</mi><mi mathvariant="normal">∣</mi><mo>≥</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">|S|\ge L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span></span></span></span> 时，操作结束。</p>
+<h2 id="3-code">3 code</h2>
+<pre><code class="language-cpp">#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+
+using namespace std;
+typedef unsigned long long ULL;//把unsigned long long替换成ULL节省时间
+map &lt;char,ULL&gt; ds;
+int main(){
+	string s;
+	ULL L;
+	cin&gt;&gt;s&gt;&gt;L;
+	if(s.size()&gt;=L){//特判1.1的情况
+		cout&lt;&lt;0;
+		return 0;
+	}
+	for(ULL i=0;i&lt;s.size();i++){
+		ds[s[i]]++;
+	}
+	ULL maxn=0;
+	for(ULL i=0;i&lt;s.size();i++){
+		if(i==0) maxn=ds[s[i]];
+		else if(maxn&lt;ds[s[i]]) maxn=ds[s[i]];
+	}
+	ULL cs=0;
+	L-=s.size();
+	while(1){
+	    if(L&lt;=maxn) break;
+		if(L&gt;maxn) L-=maxn;
+		maxn*=2;
+		cs++;
+	}
+	cout&lt;&lt;cs+1;//注意按照上述方法模拟，次数是要+1再输出的
+	return 0;
+}
+</code></pre>
+<h2 id="4-最后的一些话">4 最后的一些话</h2>
+<p>待到春暖花开时，<strong>谔谔</strong>依旧！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://sv-liao.github.io/post/hello-gridea/</id>
+        <link href="https://sv-liao.github.io/post/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="http://hvenotes.fehey.com/">Gridea 主页</a><br>
+<a href="http://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>𝖶𝗂𝗇𝖽𝗈𝗐𝗌</strong> 或 <strong>𝖬𝖺𝖼𝖮𝖲</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
